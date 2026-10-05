@@ -154,6 +154,9 @@
   .people .who { flex: 1; min-width: 0; }
   .people .name { font-weight: 700; font-size: 18px; }
   .people .detail { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .people .pay { margin-top: 4px; font-size: 16px; line-height: 1.5; }
+  .people .pay .amount { font-size: 20px; font-weight: 800; color: var(--red); white-space: nowrap; }
+  .people .pay .breakdown { font-size: 15px; color: var(--muted); }
   .people .room-btn { flex: none; min-height: 44px; padding: 4px 12px; border-radius: 8px; border: 2px solid var(--green); background: #fff; color: var(--green); font-weight: 700; font-size: 15px; }
 
   /* 部屋割り */
@@ -561,6 +564,17 @@
     return set;
   }
 
+  // お支払い額：合計（なければ参加費）。送迎代があれば内訳を添える。「確認中」はそのまま表示
+  function payHtml(p) {
+    var fee = String(p['参加費'] || '').trim(), pick = String(p['送迎代'] || '').trim(), total = String(p['合計'] || '').trim();
+    if ([fee, pick, total].indexOf('確認中') !== -1) return '<div class="pay">お支払い額：<span class="amount">確認中</span></div>';
+    var amount = total || fee;
+    if (!amount) return '';
+    var hasPick = pick && !/^[0０]+\s*円?$/.test(pick);
+    var breakdown = hasPick && fee ? '<span class="breakdown">（参加費' + esc(fee) + '＋送迎代' + esc(pick) + '）</span>' : '';
+    return '<div class="pay">お支払い額：<span class="amount">' + esc(amount) + '</span>' + breakdown + '</div>';
+  }
+
   function renderPeople() {
     var all = DATA.participants || [];
     $('people-count').textContent = all.length ? '全' + all.length + '名' : '';
@@ -588,7 +602,7 @@
           var btn = hasRoom[norm(p['氏名'])]
             ? '<button type="button" class="room-btn" data-room="' + esc(p['氏名']) + '">部屋を見る</button>' : '';
           return '<li' + (q ? ' class="hit"' : '') + '><div class="who"><div class="name">' + esc(p['氏名']) + '</div>' +
-            (detail ? '<div class="detail">' + detail + '</div>' : '') + '</div>' + btn + '</li>';
+            (detail ? '<div class="detail">' + detail + '</div>' : '') + payHtml(p) + '</div>' + btn + '</li>';
         }).join('') + '</ul></div>';
     }).join('');
   }

@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#2f4a3a">
+<title>蔵王の集い 2026</title>
+<style>
+  :root {
+    --bg: #faf7f0;
+    --card: #ffffff;
+    --ink: #1c1c1c;
+    --muted: #4a4a4a;
+    --line: #d9d2c3;
+    --green: #2f4a3a;      /* 蔵王の山 */
+    --green-soft: #e6eee8;
+    --red: #a83a1e;        /* 紅葉 */
+    --red-soft: #fbe9e3;
+    --gold: #8a6a12;
+    --gold-soft: #fbf3d9;
+    --focus: #1a5fb4;
+    --nav-h: 56px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", Meiryo, sans-serif;
+    font-size: 17px; line-height: 1.7;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 16px; }
+  h1, h2, h3 { line-height: 1.35; margin: 0; }
+  a { color: var(--focus); }
+  button, input { font: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+  [hidden] { display: none !important; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 48px; padding: 10px 20px; border-radius: 10px;
+    border: 2px solid var(--green); background: var(--green); color: #fff;
+    font-weight: 700; text-decoration: none; font-size: 17px;
+  }
+  .btn.secondary { background: #fff; color: var(--green); }
+  .btn.danger { background: #fff; color: var(--red); border-color: var(--red); }
+  .btn[disabled] { opacity: .6; cursor: default; }
+  .btn.block { width: 100%; }
+
+  /* ---------- 合言葉画面 ---------- */
+  #login { min-height: 100vh; display: flex; align-items: center; padding: 24px 0; }
+  .login-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+    padding: 28px 20px; width: 100%;
+  }
+  .login-card h1 { font-size: 26px; color: var(--green); margin-bottom: 4px; }
+  .login-card .sub { color: var(--muted); margin: 0 0 20px; }
+  .login-card label { display: block; font-weight: 700; margin-bottom: 8px; }
+  .login-card input {
+    width: 100%; min-height: 52px; padding: 10px 14px; font-size: 20px;
+    border: 2px solid #8c8577; border-radius: 10px; background: #fff; color: var(--ink);
+    margin-bottom: 14px;
+  }
+  .msg { padding: 12px 14px; border-radius: 10px; margin: 0 0 14px; font-weight: 700; }
+  .msg.error { background: var(--red-soft); color: #7a2410; border: 1px solid #e3b4a6; }
+  .msg.info { background: var(--gold-soft); color: #5c4508; border: 1px solid #e6d29a; }
+
+  /* ---------- ヘッダー ---------- */
+  header.top { background: var(--green); color: #fff; padding: 22px 0 18px; }
+  header.top h1 { font-size: 27px; }
+  header.top .dates { font-size: 19px; font-weight: 700; margin-top: 6px; }
+  header.top .updated { font-size: 15px; opacity: .9; margin-top: 4px; }
+  .mock-badge { display: inline-block; background: var(--gold-soft); color: #5c4508; font-size: 14px; font-weight: 700; padding: 2px 10px; border-radius: 99px; margin-bottom: 8px; }
+
+  .banner { padding: 12px 0; font-weight: 700; }
+  .banner .wrap { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; justify-content: space-between; }
+  .banner.notice { background: var(--red-soft); color: #6d200e; border-bottom: 3px solid var(--red); }
+  .banner.notice .wrap { display: block; white-space: pre-line; }
+  .banner.notice .label { display: block; font-size: 15px; color: var(--red); }
+  .banner.stale { background: var(--gold-soft); color: #5c4508; border-bottom: 1px solid #e6d29a; }
+  .banner .btn { min-height: 44px; padding: 6px 14px; font-size: 15px; }
+
+  /* ---------- ナビ ---------- */
+  nav.sections {
+    position: sticky; top: 0; z-index: 10; background: #fff;
+    border-bottom: 1px solid var(--line); box-shadow: 0 2px 6px rgba(0,0,0,.06);
+  }
+  nav.sections ul {
+    list-style: none; margin: 0 auto; padding: 6px 10px; max-width: 720px;
+    display: flex; gap: 6px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none;
+  }
+  nav.sections ul::-webkit-scrollbar { display: none; }
+  nav.sections a {
+    display: flex; align-items: center; min-height: 44px; padding: 0 14px; white-space: nowrap;
+    border-radius: 99px; color: var(--green); font-weight: 700; text-decoration: none; background: var(--green-soft);
+  }
+  nav.sections a.active { background: var(--green); color: #fff; }
+
+  /* ---------- セクション ---------- */
+  main section { padding: 28px 0 8px; scroll-margin-top: calc(var(--nav-h) + 8px); }
+  main section > .wrap > h2 {
+    font-size: 24px; color: var(--green); padding-bottom: 6px; margin-bottom: 14px;
+    border-bottom: 3px solid var(--red); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap;
+  }
+  h2 .count { font-size: 16px; color: var(--muted); font-weight: 700; }
+  h3.sub { font-size: 20px; margin: 18px 0 8px; color: var(--ink); }
+  .empty { color: var(--muted); padding: 8px 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 16px; margin-bottom: 10px; }
+  .pre { white-space: pre-line; overflow-wrap: anywhere; }
+  .tentative { font-size: 14px; color: var(--muted); font-weight: 400; white-space: nowrap; }
+
+  /* タブ */
+  .tabs { display: flex; gap: 6px; margin-bottom: 12px; }
+  .tabs button {
+    flex: 1 1 0; min-height: 52px; border: 2px solid var(--green); background: #fff; color: var(--green);
+    border-radius: 10px; font-weight: 700; font-size: 17px; padding: 4px 2px; line-height: 1.25;
+  }
+  .tabs button[aria-selected="true"] { background: var(--green); color: #fff; }
+  .tabs button .today { display: block; font-size: 12px; font-weight: 700; }
+
+  /* タイムテーブル */
+  .tt { list-style: none; margin: 0; padding: 0; }
+  .tt li {
+    display: grid; grid-template-columns: 74px 1fr; gap: 4px 12px;
+    background: var(--card); border: 1px solid var(--line); border-left: 6px solid var(--cat, #888);
+    border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+  }
+  .tt .time { font-weight: 700; font-size: 18px; font-variant-numeric: tabular-nums; line-height: 1.3; }
+  .tt .time small { display: block; font-size: 14px; color: var(--muted); font-weight: 400; }
+  .tt .what { font-weight: 700; font-size: 18px; line-height: 1.45; }
+  .tt .meta { font-size: 15px; color: var(--muted); margin-top: 2px; }
+  .tt .cat { display: inline-block; font-size: 13px; font-weight: 700; padding: 1px 8px; border-radius: 99px; margin-right: 6px; background: var(--cat-soft, #eee); color: var(--cat, #555); vertical-align: 1px; }
+  .tt li.now { background: #fffbea; box-shadow: 0 0 0 3px var(--red) inset; }
+  .tt .now-badge { display: inline-block; background: var(--red); color: #fff; font-size: 13px; font-weight: 700; padding: 1px 8px; border-radius: 99px; margin-bottom: 4px; }
+  .legend { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 14px; color: var(--muted); margin: -4px 0 12px; }
+  .legend span::before { content: ""; display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--cat); margin-right: 4px; vertical-align: -1px; }
+
+  /* 検索 */
+  .search { position: relative; margin-bottom: 14px; }
+  .search input {
+    width: 100%; min-height: 52px; padding: 10px 44px 10px 14px; font-size: 18px;
+    border: 2px solid #8c8577; border-radius: 10px; background: #fff; color: var(--ink);
+  }
+  .search .clear { position: absolute; right: 4px; top: 4px; width: 44px; height: 44px; border: 0; background: none; font-size: 22px; color: var(--muted); }
+
+  /* 参加者 */
+  .group h3 { font-size: 19px; margin: 18px 0 8px; display: flex; justify-content: space-between; align-items: baseline; border-left: 5px solid var(--green); padding-left: 10px; }
+  .group h3 .n { font-size: 16px; color: var(--muted); }
+  .people { list-style: none; padding: 0; margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+  .people li { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-top: 1px solid #eee7d8; min-height: 56px; }
+  .people li:first-child { border-top: 0; }
+  .people .who { flex: 1; min-width: 0; }
+  .people .name { font-weight: 700; font-size: 18px; }
+  .people .detail { font-size: 14px; color: var(--muted); line-height: 1.5; }
+  .people .room-btn { flex: none; min-height: 44px; padding: 4px 12px; border-radius: 8px; border: 2px solid var(--green); background: #fff; color: var(--green); font-weight: 700; font-size: 15px; }
+
+  /* 部屋割り */
+  .rooms-grid { display: grid; gap: 10px; }
+  .room h3 { font-size: 19px; color: var(--green); margin-bottom: 6px; }
+  .room ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+  .room li { background: var(--green-soft); border-radius: 8px; padding: 6px 12px; font-weight: 700; font-size: 17px; }
+  .room li.hit, .people li.hit { background: #ffe9a8; box-shadow: 0 0 0 3px var(--gold) inset; }
+  .room-results { list-style: none; padding: 0; margin: 0 0 14px; }
+  .room-results li { margin-bottom: 6px; }
+  .room-results button { width: 100%; text-align: left; min-height: 48px; padding: 8px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; font-size: 17px; color: var(--ink); }
+  .room-results b { color: var(--green); }
+
+  /* 食事 */
+  .meal { display: grid; gap: 2px; border-left: 6px solid var(--red); }
+  .meal .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; flex-wrap: wrap; }
+  .meal .kind { font-size: 20px; font-weight: 700; }
+  .meal .when { font-weight: 700; color: var(--green); }
+  .meal .menu { font-size: 17px; margin-top: 4px; }
+  .meal .meta { font-size: 15px; color: var(--muted); }
+
+  /* 会場 */
+  dl.kv { margin: 0; }
+  dl.kv > div { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; }
+  dl.kv dt { font-weight: 700; color: var(--green); font-size: 16px; }
+  dl.kv dd { margin: 2px 0 0; }
+
+  /* 参加費 */
+  .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border: 1px solid var(--line); border-radius: 12px; background: #fff; }
+  table { border-collapse: collapse; width: 100%; min-width: 320px; }
+  th, td { padding: 10px 12px; border-bottom: 1px solid #eee7d8; text-align: left; vertical-align: top; }
+  thead th { background: var(--green); color: #fff; font-size: 15px; white-space: nowrap; }
+  tbody th { font-weight: 700; min-width: 7em; }
+  td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  tbody tr:last-child th, tbody tr:last-child td { border-bottom: 0; }
+
+  /* 持ち物 */
+  ul.checks { list-style: none; margin: 0; padding: 0; background: var(--card); border: 1px solid var(--line); border-radius: 12px; }
+  ul.checks li { padding: 10px 14px 10px 44px; position: relative; border-top: 1px solid #eee7d8; }
+  ul.checks li:first-child { border-top: 0; }
+  ul.checks li::before { position: absolute; left: 14px; top: 10px; font-weight: 700; }
+  ul.checks.bring li::before { content: "□"; color: var(--green); }
+  ul.checks.caution li::before { content: "！"; color: var(--red); }
+
+  footer { margin-top: 32px; padding: 24px 0 48px; border-top: 1px solid var(--line); background: #f2eee3; }
+  footer .contact { font-size: 17px; margin-bottom: 16px; }
+  footer .contact b { color: var(--green); display: block; }
+  footer .actions { display: grid; gap: 10px; }
+  footer .fetched { font-size: 14px; color: var(--muted); margin-top: 12px; }
+
+  #loading { min-height: 100vh; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: 18px; }
+  .flash { animation: flash 1.6s ease-out 1; }
+  @keyframes flash { 0%, 40% { box-shadow: 0 0 0 4px var(--red) inset; } 100% { box-shadow: 0 0 0 3px var(--gold) inset; } }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .flash { animation: none; } }
+</style>
+</head>
+<body>
+
+<div id="loading">読み込み中…</div>
+
+<!-- 合言葉画面 -->
+<div id="login" hidden>
+  <div class="wrap">
+    <form class="login-card" id="login-form" autocomplete="off">
+      <div id="login-mock" class="mock-badge" hidden>MOCK モード（ダミーデータ）</div>
+      <h1>蔵王の集い 2026</h1>
+      <p class="sub">参加者専用ページ</p>
+      <p id="login-msg" class="msg" hidden></p>
+      <label for="pass">LINEグループでお知らせした合言葉を入力してください</label>
+      <input id="pass" name="pass" type="text" inputmode="text" autocapitalize="off" autocorrect="off" spellcheck="false" required>
+      <button class="btn block" id="login-btn" type="submit">表示する</button>
+    </form>
+  </div>
+</div>
+
+<!-- 本体 -->
+<div id="app" hidden>
+  <header class="top">
+    <div class="wrap">
+      <div id="app-mock" class="mock-badge" hidden>MOCK モード（ダミーデータ）</div>
+      <h1 id="h-title"></h1>
+      <div class="dates" id="h-dates"></div>
+      <div class="updated" id="h-updated"></div>
+    </div>
+  </header>
+
+  <div class="banner stale" id="stale" hidden>
+    <div class="wrap">
+      <span id="stale-text"></span>
+      <button class="btn secondary" type="button" data-action="reload">再読み込み</button>
+    </div>
+  </div>
+
+  <div class="banner notice" id="notice" hidden>
+    <div class="wrap"><span class="label">お知らせ</span><span id="notice-text"></span></div>
+  </div>
+
+  <nav class="sections" aria-label="ページ内メニュー">
+    <ul>
+      <li><a href="#schedule">日程</a></li>
+      <li><a href="#people">参加者</a></li>
+      <li><a href="#rooms">部屋割り</a></li>
+      <li><a href="#meals">食事</a></li>
+      <li><a href="#venue">会場・送迎</a></li>
+      <li><a href="#fees">参加費</a></li>
+      <li><a href="#notes">持ち物</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section id="schedule">
+      <div class="wrap">
+        <h2>日程（タイムテーブル）</h2>
+        <div class="tabs" role="tablist" id="tt-tabs"></div>
+        <div class="legend" id="tt-legend"></div>
+        <ul class="tt" id="tt-list"></ul>
+      </div>
+    </section>
+
+    <section id="people">
+      <div class="wrap">
+        <h2>参加者 <span class="count" id="people-count"></span></h2>
+        <div class="search">
+          <input type="search" id="people-q" placeholder="名前で探す" aria-label="参加者を名前で探す" enterkeyhint="search">
+          <button type="button" class="clear" data-clear="people-q" aria-label="検索をクリア" hidden>×</button>
+        </div>
+        <div id="people-list"></div>
+      </div>
+    </section>
+
+    <section id="rooms">
+      <div class="wrap">
+        <h2>部屋割り</h2>
+        <div class="search">
+          <input type="search" id="rooms-q" placeholder="名前で自分の部屋を探す" aria-label="部屋割りを名前で探す" enterkeyhint="search">
+          <button type="button" class="clear" data-clear="rooms-q" aria-label="検索をクリア" hidden>×</button>
+        </div>
+        <ul class="room-results" id="rooms-results"></ul>
+        <div class="tabs" role="tablist" id="rooms-tabs"></div>
+        <div class="rooms-grid" id="rooms-list"></div>
+      </div>
+    </section>
+
+    <section id="meals">
+      <div class="wrap">
+        <h2>食事</h2>
+        <div id="meals-list"></div>
+      </div>
+    </section>
+
+    <section id="venue">
+      <div class="wrap">
+        <h2>会場・送迎</h2>
+        <div id="venue-body"></div>
+      </div>
+    </section>
+
+    <section id="fees">
+      <div class="wrap">
+        <h2>参加費</h2>
+        <div id="fees-body"></div>
+      </div>
+    </section>
+
+    <section id="notes">
+      <div class="wrap">
+        <h2>持ち物・注意事項</h2>
+        <div id="notes-body"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <div class="contact" id="contact" hidden><b>問い合わせ</b><span class="pre" id="contact-text"></span></div>
+      <div class="actions">
+        <button class="btn secondary block" type="button" data-action="reload">最新の情報に更新</button>
+        <button class="btn danger block" type="button" id="forget">この端末から合言葉を削除</button>
+      </div>
+      <div class="fetched" id="fetched"></div>
+    </div>
+  </footer>
+</div>
+
+<script src="config.js"></script>
+<script>
+(function () {
+  'use strict';
+
+  // ---------------------------------------------------------------
+  // 設定
+  // ---------------------------------------------------------------
+  var CFG = window.ZAO_CONFIG || {};
+  var params = new URLSearchParams(location.search);
+  var MOCK = CFG.MOCK === true || params.get('mock') === '1';
+  // MOCK モードの合言葉（本物の合言葉ではない。ダミーデータ確認用）
+  var MOCK_PASSPHRASE = 'test';
+  var KEY = MOCK ? 'zao2026_mock_' : 'zao2026_';
+  // 動作確認用：?now=2026-10-10T12:30 で「現在日時」を差し替える
+  var NOW_OVERRIDE = params.get('now') ? new Date(params.get('now')) : null;
+  if (NOW_OVERRIDE && isNaN(NOW_OVERRIDE)) NOW_OVERRIDE = null;
+  function now() { return NOW_OVERRIDE ? new Date(NOW_OVERRIDE) : new Date(); }
+
+  var CATS = {
+    '全体':           { color: '#2f4a3a', soft: '#e6eee8', icon: '📣' },
+    '食事':           { color: '#a83a1e', soft: '#fbe9e3', icon: '🍚' },
+    '作業':           { color: '#6b5a2e', soft: '#f1ead6', icon: '🔨' },
+    'アクティビティ': { color: '#1f5f8b', soft: '#e3eef6', icon: '🍁' },
+    'ラグビー':       { color: '#6a2c8a', soft: '#f0e6f5', icon: '🏉' }
+  };
+  var GROUP_ORDER = ['前泊', '1泊', '日帰り', 'パーティーのみ'];
+  var ROOM_ORDER = ['個室', '1F', '2F'];
+
+  // ---------------------------------------------------------------
+  // localStorage（使えない環境でも落ちないように）
+  // ---------------------------------------------------------------
+  var store = {
+    get: function (k) { try { return localStorage.getItem(KEY + k); } catch (e) { return null; } },
+    set: function (k, v) { try { localStorage.setItem(KEY + k, v); } catch (e) {} },
+    del: function (k) { try { localStorage.removeItem(KEY + k); } catch (e) {} }
+  };
+  function loadCache() {
+    try {
+      var d = JSON.parse(store.get('data') || 'null');
+      return d && d.ok ? d : null;
+    } catch (e) { return null; }
+  }
+  function saveAll(pass, data) {
+    var at = new Date().toISOString();
+    store.set('pass', pass);
+    store.set('data', JSON.stringify(data));
+    store.set('savedAt', at);
+    return at;
+  }
+  function forgetAll() { store.del('pass'); store.del('data'); store.del('savedAt'); }
+
+  // ---------------------------------------------------------------
+  // データ取得
+  //   結果: {status:'ok', data} / {status:'unauthorized'} / {status:'locked'} / {status:'network'}
+  //   ※ カスタムヘッダーは付けない（GAS は CORS プリフライトに対応しないため）
+  // ---------------------------------------------------------------
+  function fetchData(pass) {
+    if (MOCK) {
+      return new Promise(function (r) { setTimeout(r, 400); }).then(function () {
+        if (pass !== MOCK_PASSPHRASE) return { status: 'unauthorized' };
+        return fetch('mock.json?t=' + Date.now()).then(function (res) { return res.json(); })
+          .then(function (d) { return { status: 'ok', data: d }; });
+      }).catch(function () { return { status: 'network' }; });
+    }
+    if (!CFG.GAS_URL) return Promise.resolve({ status: 'network' });
+    var url = CFG.GAS_URL + '?p=' + encodeURIComponent(pass) + '&t=' + Date.now();
+    return fetch(url).then(function (res) { return res.json(); }).then(function (d) {
+      if (d && d.ok === true) return { status: 'ok', data: d };
+      if (d && d.error === 'locked') return { status: 'locked' };
+      return { status: 'unauthorized' };
+    }).catch(function () { return { status: 'network' }; });
+  }
+
+  // ---------------------------------------------------------------
+  // ユーティリティ
+  // ---------------------------------------------------------------
+  function $(id) { return document.getElementById(id); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  // テキスト中の https URL だけリンクにする
+  function linkify(s) {
+    return esc(s).replace(/https?:\/\/[^\s<>"']+/g, function (u) {
+      return '<a href="' + u + '" target="_blank" rel="noopener noreferrer">' + u + '</a>';
+    });
+  }
+  function safeUrl(u) { u = String(u || '').trim(); return /^https?:\/\//i.test(u) ? u : ''; }
+  function tentative(row) { return row && row['状態'] === '仮' ? ' <span class="tentative">（予定）</span>' : ''; }
+  function norm(s) { return String(s || '').normalize('NFKC').replace(/[\s　]/g, '').toLowerCase(); }
+  function uniq(arr) { var out = []; arr.forEach(function (v) { if (v && out.indexOf(v) === -1) out.push(v); }); return out; }
+  function dateKey(s) { var m = String(s || '').normalize('NFKC').match(/(\d{1,2})\s*[\/月]\s*(\d{1,2})/); return m ? (+m[1]) + '/' + (+m[2]) : ''; }
+  function todayKey() { var d = now(); return (d.getMonth() + 1) + '/' + d.getDate(); }
+  function toMin(s) { var m = String(s || '').normalize('NFKC').match(/(\d{1,2}):(\d{2})/); return m ? (+m[1]) * 60 + (+m[2]) : null; }
+  function fmtTime(s) { var m = toMin(s); return m == null ? esc(s) : Math.floor(m / 60) + ':' + ('0' + (m % 60)).slice(-2); }
+  function fmtStamp(iso) {
+    var d = new Date(iso); if (isNaN(d)) return '';
+    return (d.getMonth() + 1) + '月' + d.getDate() + '日 ' + d.getHours() + ':' + ('0' + d.getMinutes()).slice(-2);
+  }
+  function tabLabel(raw) { return esc(String(raw).replace(/\s+/g, '')); }
+  function infoVal(k) { var v = DATA && DATA.info && DATA.info[k]; return v && String(v.value || '').trim() ? v : null; }
+
+  function pickDefaultTab(dates) {
+    var t = todayKey();
+    for (var i = 0; i < dates.length; i++) if (dateKey(dates[i]) === t) return dates[i];
+    return dates[0];
+  }
+  function renderTabs(el, dates, selected, onSelect) {
+    var t = todayKey();
+    el.innerHTML = dates.map(function (d) {
+      var isToday = dateKey(d) === t;
+      return '<button type="button" role="tab" aria-selected="' + (d === selected) + '" data-date="' + esc(d) + '">' +
+        tabLabel(d) + (isToday ? '<span class="today">きょう</span>' : '') + '</button>';
+    }).join('');
+    el.onclick = function (e) {
+      var b = e.target.closest('button[data-date]');
+      if (b) onSelect(b.getAttribute('data-date'));
+    };
+  }
+
+  // ---------------------------------------------------------------
+  // 状態
+  // ---------------------------------------------------------------
+  var DATA = null;
+  var state = { ttDate: null, roomDate: null, roomHit: '' };
+
+  // ---------------------------------------------------------------
+  // 各セクション描画
+  // ---------------------------------------------------------------
+  function renderHeader() {
+    var title = infoVal('title');
+    $('h-title').textContent = title ? title.value : '蔵王の集い 2026';
+    document.title = (title ? title.value : '蔵王の集い 2026');
+    var dates = infoVal('dates');
+    $('h-dates').textContent = dates ? dates.value : '';
+    $('h-dates').hidden = !dates;
+    var up = infoVal('updated');
+    $('h-updated').textContent = up ? '最終更新：' + up.value : '';
+    $('h-updated').hidden = !up;
+
+    var notice = infoVal('notice');
+    $('notice').hidden = !notice;
+    if (notice) $('notice-text').innerHTML = linkify(notice.value);
+
+    var contact = infoVal('contact');
+    $('contact').hidden = !contact;
+    if (contact) $('contact-text').innerHTML = linkify(contact.value);
+  }
+
+  function renderTimetable() {
+    var rows = DATA.timetable || [];
+    var dates = uniq(rows.map(function (r) { return r['日付']; }));
+    if (!dates.length) {
+      $('tt-tabs').innerHTML = ''; $('tt-legend').innerHTML = '';
+      $('tt-list').innerHTML = '<li class="empty" style="display:block;border:0;background:none">準備中です</li>';
+      return;
+    }
+    if (dates.indexOf(state.ttDate) === -1) state.ttDate = pickDefaultTab(dates);
+    renderTabs($('tt-tabs'), dates, state.ttDate, function (d) { state.ttDate = d; renderTimetable(); });
+
+    var used = uniq(rows.map(function (r) { return r['区分']; }));
+    $('tt-legend').innerHTML = used.map(function (c) {
+      var k = CATS[c] || { color: '#666' };
+      return '<span style="--cat:' + k.color + '">' + esc(c) + '</span>';
+    }).join('');
+
+    var dayRows = rows.filter(function (r) { return r['日付'] === state.ttDate; });
+
+    // 当日なら「いま」の行を決める：開始済みで最も新しい行（同時刻の行はすべて）。
+    // まだ何も始まっていなければ最初の行を「つぎ」とする。
+    var nowSet = {}, badge = 'いま';
+    if (dateKey(state.ttDate) === todayKey()) {
+      var d = now(), cur = d.getHours() * 60 + d.getMinutes();
+      var started = dayRows.map(function (r) { return toMin(r['開始']); }).filter(function (m) { return m != null && m <= cur; });
+      if (started.length) {
+        var latest = Math.max.apply(null, started);
+        dayRows.forEach(function (r, i) {
+          var s = toMin(r['開始']), e = toMin(r['終了']);
+          if (s === latest && (e == null || e > cur)) nowSet[i] = true;
+        });
+        // 終了済みなら次の行を「つぎ」として強調
+        if (!Object.keys(nowSet).length) {
+          var nextMin = null;
+          dayRows.forEach(function (r) { var s = toMin(r['開始']); if (s != null && s > cur && (nextMin == null || s < nextMin)) nextMin = s; });
+          if (nextMin != null) { badge = 'つぎ'; dayRows.forEach(function (r, i) { if (toMin(r['開始']) === nextMin) nowSet[i] = true; }); }
+        }
+      } else {
+        var first = null;
+        dayRows.forEach(function (r) { var s = toMin(r['開始']); if (s != null && (first == null || s < first)) first = s; });
+        if (first != null) { badge = 'つぎ'; dayRows.forEach(function (r, i) { if (toMin(r['開始']) === first) nowSet[i] = true; }); }
+      }
+    }
+
+    $('tt-list').innerHTML = dayRows.map(function (r, i) {
+      var k = CATS[r['区分']] || { color: '#777', soft: '#eee', icon: '・' };
+      var meta = [r['場所'] ? '📍' + esc(r['場所']) : '', r['対象'] ? '対象：' + esc(r['対象']) : ''].filter(Boolean).join('　');
+      return '<li class="' + (nowSet[i] ? 'now' : '') + '" style="--cat:' + k.color + ';--cat-soft:' + k.soft + '">' +
+        '<div class="time">' + fmtTime(r['開始']) + (r['終了'] ? '<small>〜' + fmtTime(r['終了']) + '</small>' : '') + '</div>' +
+        '<div>' +
+          (nowSet[i] ? '<span class="now-badge">' + badge + '</span><br>' : '') +
+          '<div class="what">' + (r['区分'] ? '<span class="cat">' + k.icon + ' ' + esc(r['区分']) + '</span>' : '') +
+            '<span class="pre">' + esc(r['内容']) + '</span>' + tentative(r) + '</div>' +
+          (meta ? '<div class="meta">' + meta + '</div>' : '') +
+        '</div></li>';
+    }).join('') || '<li class="empty" style="display:block;border:0;background:none">この日の予定はありません</li>';
+  }
+
+  function groupOf(s) {
+    s = String(s || '').normalize('NFKC');
+    if (/前泊/.test(s)) return '前泊';
+    if (/日帰/.test(s)) return '日帰り';
+    if (/パーティ/.test(s)) return 'パーティーのみ';
+    if (/1泊|一泊/.test(s)) return '1泊';
+    return s || 'その他';
+  }
+  function roomNames() {
+    var set = {};
+    (DATA.rooms || []).forEach(function (r) { set[norm(r['氏名'])] = true; });
+    return set;
+  }
+
+  function renderPeople() {
+    var all = DATA.participants || [];
+    $('people-count').textContent = all.length ? '全' + all.length + '名' : '';
+    var q = norm($('people-q').value);
+    var list = q ? all.filter(function (p) { return norm(p['氏名']).indexOf(q) !== -1 || norm(p['所属']).indexOf(q) !== -1; }) : all;
+    if (!all.length) { $('people-list').innerHTML = '<p class="empty">準備中です</p>'; return; }
+    if (!list.length) { $('people-list').innerHTML = '<p class="empty">「' + esc($('people-q').value) + '」に一致する人はいません</p>'; return; }
+
+    var groups = {}, order = GROUP_ORDER.slice();
+    list.forEach(function (p) {
+      var g = groupOf(p['参加日程']);
+      (groups[g] = groups[g] || []).push(p);
+      if (order.indexOf(g) === -1) order.push(g);
+    });
+    // 総数は検索前の数で表示
+    var totals = {};
+    all.forEach(function (p) { var g = groupOf(p['参加日程']); totals[g] = (totals[g] || 0) + 1; });
+    var hasRoom = roomNames();
+
+    $('people-list').innerHTML = order.filter(function (g) { return groups[g]; }).map(function (g) {
+      return '<div class="group"><h3>' + esc(g) + '<span class="n">' +
+        (q ? groups[g].length + ' / ' : '') + totals[g] + '名</span></h3><ul class="people">' +
+        groups[g].map(function (p) {
+          var detail = [p['所属'], p['参加日程'], p['宿泊'], p['備考']].filter(function (x) { return String(x || '').trim(); }).map(esc).join('・');
+          var btn = hasRoom[norm(p['氏名'])]
+            ? '<button type="button" class="room-btn" data-room="' + esc(p['氏名']) + '">部屋を見る</button>' : '';
+          return '<li' + (q ? ' class="hit"' : '') + '><div class="who"><div class="name">' + esc(p['氏名']) + '</div>' +
+            (detail ? '<div class="detail">' + detail + '</div>' : '') + '</div>' + btn + '</li>';
+        }).join('') + '</ul></div>';
+    }).join('');
+  }
+
+  function renderRooms() {
+    var rows = DATA.rooms || [];
+    var dates = uniq(rows.map(function (r) { return r['日付']; }));
+    if (!dates.length) {
+      $('rooms-tabs').innerHTML = ''; $('rooms-results').innerHTML = '';
+      $('rooms-list').innerHTML = '<p class="empty">準備中です</p>';
+      return;
+    }
+    if (dates.indexOf(state.roomDate) === -1) state.roomDate = pickDefaultTab(dates);
+    renderTabs($('rooms-tabs'), dates, state.roomDate, function (d) { state.roomDate = d; renderRooms(); });
+
+    // 名前検索 → どの日にどの部屋か
+    var q = norm($('rooms-q').value);
+    if (q) {
+      var hits = rows.filter(function (r) { return norm(r['氏名']).indexOf(q) !== -1; });
+      $('rooms-results').innerHTML = hits.length ? hits.map(function (r) {
+        return '<li><button type="button" data-goto-date="' + esc(r['日付']) + '" data-goto-name="' + esc(r['氏名']) + '">' +
+          '<b>' + esc(r['氏名']) + '</b>　' + tabLabel(r['日付']) + '　→ <b>' + esc(r['部屋']) + '</b></button></li>';
+      }).join('') : '<li class="empty">「' + esc($('rooms-q').value) + '」に一致する人はいません</li>';
+    } else {
+      $('rooms-results').innerHTML = '';
+    }
+
+    var dayRows = rows.filter(function (r) { return r['日付'] === state.roomDate; });
+    var byRoom = {}, order = ROOM_ORDER.slice();
+    dayRows.forEach(function (r) {
+      var k = r['部屋'] || 'その他';
+      (byRoom[k] = byRoom[k] || []).push(r);
+      if (order.indexOf(k) === -1) order.push(k);
+    });
+    var hitName = norm(state.roomHit);
+    $('rooms-list').innerHTML = order.filter(function (k) { return byRoom[k]; }).map(function (k) {
+      var people = byRoom[k].slice().sort(function (a, b) { return (+a['No'] || 0) - (+b['No'] || 0); });
+      return '<div class="card room"><h3>' + esc(k) + ' <span class="tentative">' + people.length + '名</span></h3><ul>' +
+        people.map(function (r) {
+          var n = norm(r['氏名']);
+          var hit = (hitName && n === hitName) || (q && n.indexOf(q) !== -1);
+          return '<li' + (hit ? ' class="hit" data-hit="1"' : '') + '>' + esc(r['氏名']) + '</li>';
+        }).join('') + '</ul></div>';
+    }).join('') || '<p class="empty">この日の部屋割りはありません</p>';
+  }
+
+  function jumpToRoom(name, date) {
+    var rows = DATA.rooms || [];
+    var mine = rows.filter(function (r) { return norm(r['氏名']) === norm(name); });
+    if (!mine.length) return;
+    if (!date) {
+      var t = todayKey();
+      var today = mine.filter(function (r) { return dateKey(r['日付']) === t; })[0];
+      date = (today || mine[0])['日付'];
+    }
+    state.roomDate = date;
+    state.roomHit = name;
+    renderRooms();
+    $('rooms').scrollIntoView();
+    var el = document.querySelector('#rooms-list li[data-hit]');
+    if (el) { el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); }
+  }
+
+  function renderMeals() {
+    var rows = DATA.meals || [];
+    var dates = uniq(rows.map(function (r) { return r['日付']; }));
+    $('meals-list').innerHTML = dates.map(function (d) {
+      return '<h3 class="sub">' + tabLabel(d) + (dateKey(d) === todayKey() ? ' <span class="tentative">きょう</span>' : '') + '</h3>' +
+        rows.filter(function (r) { return r['日付'] === d; }).map(function (r) {
+          var meta = [r['場所'] ? '📍' + esc(r['場所']) : '', r['対象'] ? '対象：' + esc(r['対象']) : ''].filter(Boolean).join('　');
+          return '<div class="card meal"><div class="head"><span class="kind">' + esc(r['食事']) + tentative(r) + '</span>' +
+            (r['時間'] ? '<span class="when">' + fmtTime(r['時間']) + '〜</span>' : '') + '</div>' +
+            (r['メニュー'] ? '<div class="menu pre">' + esc(r['メニュー']) + '</div>' : '') +
+            (meta ? '<div class="meta">' + meta + '</div>' : '') + '</div>';
+        }).join('');
+    }).join('') || '<p class="empty">準備中です</p>';
+  }
+
+  function renderVenue() {
+    var items = [
+      ['venue', '会場'], ['venue_address', '住所'], ['parking', '駐車場'], ['ground', 'グラウンド'],
+      ['pickup_shiroishi', '送迎①'], ['pickup_togatta', '送迎②']
+    ];
+    var html = '';
+    items.forEach(function (it) {
+      var v = infoVal(it[0]);
+      if (!v) return;
+      var extra = '';
+      if (it[0] === 'venue_address' || (it[0] === 'venue' && !infoVal('venue_address'))) {
+        var map = infoVal('venue_map_url'), u = map && safeUrl(map.value);
+        if (u) extra = '<div style="margin-top:10px"><a class="btn" href="' + esc(u) + '" target="_blank" rel="noopener noreferrer">📍 Googleマップで開く</a></div>';
+      }
+      html += '<div><dt>' + esc(v.label || it[1]) + tentative({ '状態': v.status }) + '</dt>' +
+        '<dd class="pre">' + linkify(v.value) + '</dd>' + extra + '</div>';
+    });
+    $('venue-body').innerHTML = html ? '<dl class="kv">' + html + '</dl>' : '<p class="empty">準備中です</p>';
+  }
+
+  function renderFees() {
+    var rows = DATA.fees || [];
+    if (!rows.length) { $('fees-body').innerHTML = '<p class="empty">準備中です</p>'; return; }
+    var cols = [];
+    rows.forEach(function (r) { Object.keys(r).forEach(function (k) { if (cols.indexOf(k) === -1) cols.push(k); }); });
+    // 中身がすべて空の列は出さない
+    cols = cols.filter(function (c) { return rows.some(function (r) { return String(r[c] || '').trim(); }); });
+    $('fees-body').innerHTML = '<div class="table-wrap"><table><thead><tr>' +
+      cols.map(function (c) { return '<th scope="col">' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>' +
+      rows.map(function (r) {
+        return '<tr>' + cols.map(function (c, i) {
+          var v = r[c] || '';
+          if (i === 0) return '<th scope="row" class="pre">' + esc(v) + '</th>';
+          var isNum = /^[\d,０-９，]+\s*円?$|^無料$/.test(String(v).trim());
+          return '<td class="' + (isNum ? 'num' : 'pre') + '">' + esc(v) + '</td>';
+        }).join('') + '</tr>';
+      }).join('') + '</tbody></table></div>';
+  }
+
+  function renderNotes() {
+    var rows = DATA.notes || [];
+    var kinds = uniq(['持ち物', '注意'].concat(rows.map(function (r) { return r['区分'] || 'その他'; })));
+    var html = kinds.map(function (k) {
+      var items = rows.filter(function (r) { return (r['区分'] || 'その他') === k; });
+      if (!items.length) return '';
+      var cls = k === '持ち物' ? 'bring' : (k === '注意' ? 'caution' : 'bring');
+      return '<h3 class="sub">' + esc(k === '注意' ? '注意事項' : k) + '</h3><ul class="checks ' + cls + '">' +
+        items.map(function (r) { return '<li class="pre">' + linkify(r['内容']) + tentative(r) + '</li>'; }).join('') + '</ul>';
+    }).join('');
+    $('notes-body').innerHTML = html || '<p class="empty">準備中です</p>';
+  }
+
+  function renderAll() {
+    renderHeader();
+    renderTimetable();
+    renderPeople();
+    renderRooms();
+    renderMeals();
+    renderVenue();
+    renderFees();
+    renderNotes();
+    var at = store.get('savedAt');
+    $('fetched').textContent = at ? 'この端末に保存した情報：' + fmtStamp(at) + ' 時点' : '';
+  }
+
+  // ---------------------------------------------------------------
+  // 画面切り替え
+  // ---------------------------------------------------------------
+  function show(id) {
+    ['loading', 'login', 'app'].forEach(function (x) { $(x).hidden = x !== id; });
+    $('login-mock').hidden = $('app-mock').hidden = !MOCK;
+  }
+  function showLogin(msg, kind) {
+    DATA = null;
+    show('login');
+    var m = $('login-msg');
+    m.hidden = !msg; m.textContent = msg || ''; m.className = 'msg ' + (kind || 'error');
+    $('pass').value = '';
+    setTimeout(function () { $('pass').focus(); }, 50);
+  }
+  function showApp(data, stale) {
+    var first = !DATA;
+    DATA = data;
+    show('app');
+    renderAll();
+    setStale(stale);
+    if (first && location.hash) {
+      var t = document.querySelector(location.hash);
+      if (t) t.scrollIntoView();
+    }
+  }
+  function setStale(on, text) {
+    $('stale').hidden = !on;
+    if (on) {
+      var at = store.get('savedAt');
+      $('stale-text').textContent = text || ('通信できないため ' + (at ? fmtStamp(at) : '前回') + ' 時点の情報を表示しています');
+    }
+  }
+
+  // 保存済みの合言葉で取得（2回目以降・再読み込み）
+  var refreshing = false;
+  function refresh() {
+    var pass = store.get('pass');
+    if (!pass) { showLogin(); return; }
+    if (refreshing) return;
+    refreshing = true;
+    var cached = loadCache();
+    if (!DATA && cached) showApp(cached, false); // まず前回データを即表示
+    if (!DATA) show('loading');
+    fetchData(pass).then(function (r) {
+      refreshing = false;
+      if (r.status === 'ok') { saveAll(pass, r.data); showApp(r.data, false); return; }
+      if (r.status === 'unauthorized') {
+        forgetAll();
+        showLogin('合言葉が変更されました。LINEグループで新しい合言葉を確認して入力してください。', 'info');
+        return;
+      }
+      // 通信失敗・混雑 → 前回データで表示
+      var c = DATA || cached;
+      if (c) { showApp(c, true); if (r.status === 'locked') setStale(true, 'アクセスが集中しています。少し時間をおいて再読み込みしてください（前回の情報を表示中）'); }
+      else showLogin(r.status === 'locked'
+        ? 'アクセスが集中しています。1分ほど待ってからもう一度お試しください。'
+        : '通信できませんでした。電波の良い場所でもう一度お試しください。');
+    });
+  }
+
+  // ---------------------------------------------------------------
+  // イベント
+  // ---------------------------------------------------------------
+  $('login-form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var pass = $('pass').value.trim();
+    if (!pass) return;
+    var btn = $('login-btn');
+    btn.disabled = true; btn.textContent = '確認中…';
+    fetchData(pass).then(function (r) {
+      btn.disabled = false; btn.textContent = '表示する';
+      var m = $('login-msg');
+      if (r.status === 'ok') { saveAll(pass, r.data); showApp(r.data, false); window.scrollTo(0, 0); return; }
+      m.hidden = false; m.className = 'msg error';
+      m.textContent = r.status === 'unauthorized' ? '合言葉が違います。もう一度入力してください。'
+        : r.status === 'locked' ? 'アクセスが集中しています。1分ほど待ってからもう一度お試しください。'
+        : '通信できませんでした。電波の良い場所でもう一度お試しください。';
+      $('pass').select();
+    });
+  });
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var a = t.closest('[data-action="reload"]');
+    if (a) { refresh(); return; }
+    var rb = t.closest('[data-room]');
+    if (rb) { jumpToRoom(rb.getAttribute('data-room')); return; }
+    var g = t.closest('[data-goto-date]');
+    if (g) { jumpToRoom(g.getAttribute('data-goto-name'), g.getAttribute('data-goto-date')); return; }
+    var c = t.closest('[data-clear]');
+    if (c) { var inp = $(c.getAttribute('data-clear')); inp.value = ''; inp.dispatchEvent(new Event('input')); inp.focus(); }
+  });
+
+  function bindSearch(id, fn) {
+    $(id).addEventListener('input', function () {
+      document.querySelector('[data-clear="' + id + '"]').hidden = !this.value;
+      if (DATA) fn();
+    });
+  }
+  bindSearch('people-q', renderPeople);
+  bindSearch('rooms-q', function () { state.roomHit = ''; renderRooms(); });
+
+  $('forget').addEventListener('click', function () {
+    if (!confirm('この端末に保存した合言葉と情報を削除します。よろしいですか？')) return;
+    forgetAll();
+    $('people-q').value = ''; $('rooms-q').value = '';
+    showLogin('この端末から合言葉を削除しました。', 'info');
+  });
+
+  // 「いま」の強調を1分ごとに更新
+  setInterval(function () { if (DATA && !$('app').hidden) renderTimetable(); }, 60 * 1000);
+
+  // ページ内ナビ：表示中のセクションを強調
+  if ('IntersectionObserver' in window) {
+    var links = Array.prototype.slice.call(document.querySelectorAll('nav.sections a'));
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        links.forEach(function (l) {
+          var on = l.getAttribute('href') === '#' + en.target.id;
+          l.classList.toggle('active', on);
+          if (on && l.scrollIntoView) l.parentNode.parentNode.scrollLeft = l.offsetLeft - 20;
+        });
+      });
+    }, { rootMargin: '-70px 0px -60% 0px' });
+    document.querySelectorAll('main section').forEach(function (s) { io.observe(s); });
+  }
+
+  // 起動
+  if (store.get('pass')) refresh(); else showLogin();
+})();
+</script>
+</body>
+</html>
